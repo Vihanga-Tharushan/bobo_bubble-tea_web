@@ -1,16 +1,32 @@
 import './App.css'
 import ProductCard from './components/productCard'
+import AdminPage from './pages/adminPage'
+import HomePage from './pages/homePage'
+import TestPage from './pages/test'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
   
   return (
-    <>
-      <h1>Welcome to BOBO</h1>
-      <ProductCard name="Sample Product" description="This is a sample product." price={19.99} image="https://images.squarespace-cdn.com/content/v1/68f206cca9dce96f2599130d/1760691951097-4H89SZN5C13SVK7EEHLK/image3.jpg" />
-      <br></br>
-      <ProductCard name="Another Product" description="This is another sample product." price={29.99} image="https://bubblebliss.uk/wp-content/uploads/2025/05/IMG_2628-scaled.jpeg" />
 
-    </>
+    <BrowserRouter>
+
+      <div className="w-full h-screen ">  {/* vh means viewport height , that means 100% of the viewport height */ }
+
+          <Routes path="/">
+              
+              <Route path="/*" element={<HomePage/>} />
+              <Route path="/register" element={<h1 className="text-secondary text-4xl font-bold text-center mt-10">Register</h1>} />
+              <Route path="/admin/*" element={<AdminPage />} />
+              <Route path="/test" element={<TestPage/>} />
+
+           
+
+          </Routes>
+
+      </div>
+    </BrowserRouter>
+  
   )
 }
 
