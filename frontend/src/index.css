@@ -2,8 +2,7 @@
 
 /* create colour palette */
 @theme {
-    --color-accent: #9D4EDD; /* Purple color */
-    --color-secondary:#2E1A47; /* Dark Text color */
-    --color-primary: #FAF7FF; /* Light background color */ 
-
+    --color-accent: #9D4EDD; /* Purple color 9D4EDD */
+    --color-secondary: #2E1A47; /* Dark Text color */
+    --color-primary: #FAF7FF; /* Light background color */
 }

@@ -1,47 +1,55 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import Test from "./models/test.js";
 import userRouters from "./routes/userRouters.js";
 import productRouters from "./routes/productRouters.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv"
 
+
+dotenv.config(); // Load environment variables from .env file
 
 const app = express();
 
+
+//this is middleware to allow cross-origin requests
+app.use(cors());
+
 app.use(express.json()); // Middleware to parse JSON bodies
 
-//token identify middleware
-app.use(
-    (req, res, next)=>{
-        let token = req.headers.authorization;
-        if(token){
-            //remove "Bearer " from token
-            token = token.replace("Bearer ", "");
-    
-            jwt.verify(token, "jwt-secret", (err, decoded)=>{
-                
-                if(err){
-                    return res.json({
-                        message: "Invalid token"
-                    });
-                }
-                if(decoded == null){
-                    return res.json({
-                        message: "Invalid token"
-                    });
-                }
-                req.user = decoded;
-                next();
-            });
-        } else {
-            res.json({
-                message: "Token not provided"
-            });
-        }
-    }
-);
+//optional token verification middleware
+const verifyToken = (req, res, next) => {
+    let token = req.header("Authorization");
 
-const connectionString = "mongodb+srv://admin:1234@cluster0.wppnujz.mongodb.net/?appName=Cluster0";
+    if(token != null){
+        //remove "Bearer " from token
+        token = token.replace("Bearer ", "");
+
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded)=>{
+            
+            if(err){
+                return res.json({
+                    message: "Invalid token"
+                });
+            }
+            if(decoded == null){
+                return res.json({
+                    message: "Invalid token"
+                });
+            }
+            req.user = decoded;
+            next();
+        });
+    } else {
+        next(); // Allow request to proceed without token
+    }
+};
+
+app.use(verifyToken); // Apply to all routes
+
+
+const connectionString = process.env.MONGO_URI;
 
 mongoose.connect(connectionString).then(
     ()=>{
@@ -54,8 +62,8 @@ mongoose.connect(connectionString).then(
 );
 
 // Define routes
-app.use("/users", userRouters);
-app.use("/products", productRouters);
+app.use("/api/users", userRouters);
+app.use("/api/products", productRouters);
 
 app.listen(5000,
     ()=>{
