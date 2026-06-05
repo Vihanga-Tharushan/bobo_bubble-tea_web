@@ -7,7 +7,7 @@ export default function Header() {
 
             <div className="h-full w-full flex relative">
 
-                <img src="logo.png" alt="BOBO Logo" className="h-full w-auto px-12 object-cover absolute left-0" />
+                <img src="/BOBOimg.png" alt="BOBO Logo" className="h-full w-auto  object-cover absolute left-0" />
 
                 <nav className="h-full w-full flex items-center justify-end gap-10 pr-14 pl-28"> 
 

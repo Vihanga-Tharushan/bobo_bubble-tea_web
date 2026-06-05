@@ -3,6 +3,43 @@
 /* create colour palette */
 @theme {
     --color-accent: #9D4EDD; /* Purple color 9D4EDD */
+    --color-accent-light: #efe1fa; /* Lighter purple color C77DFF */
     --color-secondary: #2E1A47; /* Dark Text color */
     --color-primary: #FAF7FF; /* Light background color */
+}
+
+@keyframes bobo-pulse {
+    0%,
+    100% {
+        transform: scale(0.9);
+    }
+    50% {
+        transform: scale(1.0);
+    }
+}
+
+.bobo-loading {
+    animation: bobo-pulse 1.2s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes card-glow {
+    0% {
+        box-shadow: 0 8px 24px rgba(46, 26, 71, 0.12);
+    }
+    50% {
+        box-shadow: 0 12px 40px rgba(157, 78, 221, 0.3), 0 8px 24px rgba(46, 26, 71, 0.12);
+    }
+    100% {
+        box-shadow: 0 8px 24px rgba(46, 26, 71, 0.12);
+    }
+}
+
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    animation: card-glow 1.5s ease-in-out infinite;
+    transform: translateY(-4px);
 }

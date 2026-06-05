@@ -151,7 +151,7 @@ export default function LoginPage() {
           <div className="w-full max-w-sm">
            
 
-            <h1 className={`text-3xl font-bold transition-colors duration-300 ${
+            <h1 className={`text-3xl font-bold font-poppins transition-colors duration-300 ${
               isDark ? 'text-white' : 'text-secondary'
             }`}>Welcome Back</h1>
             <p className={`text-sm mt-2 mb-8 transition-colors duration-300 ${
