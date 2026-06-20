@@ -9,7 +9,8 @@ export function createUser(req, res) {
         email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        password: hashedPassword
+        password: hashedPassword,
+        role: req.body.role
     });
     user.save()
         .then(() => {

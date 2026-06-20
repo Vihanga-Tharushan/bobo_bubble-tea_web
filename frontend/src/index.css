@@ -43,3 +43,13 @@
     animation: card-glow 1.5s ease-in-out infinite;
     transform: translateY(-4px);
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  overflow-y: scroll; /* Keeps vertical scrolling active */
+}

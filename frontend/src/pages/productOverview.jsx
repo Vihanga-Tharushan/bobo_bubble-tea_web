@@ -9,11 +9,14 @@ import {
   Heart, 
   Truck, 
   ShieldCheck, 
-  RotateCcw 
+  RotateCcw
 } from "lucide-react";
+import { SiBuymeacoffee } from "react-icons/si";
 import Loader from "./loader";
 import toast from "react-hot-toast";
 import ImageSlider from "../components/imageSlider";
+import { addToCart } from "../utils/cart";
+import { Link } from "react-router-dom";
 
 export default function ProductOverview() {
   const params = useParams();
@@ -159,10 +162,40 @@ export default function ProductOverview() {
               <button
                 type="button"
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white font-semibold h-12 px-6 hover:bg-[#8a3dc7] transition-all shadow-[0_10px_28px_-8px_rgba(157,78,221,0.6)] hover:shadow-[0_14px_36px_-8px_rgba(157,78,221,0.8)]"
+                onClick={() => {
+                    addToCart(product, qty);
+                    toast.success(`${qty} - ${product.name} added to cart!`);
+                    console.log(localStorage.getItem("cart")); // For debugging: log the current cart state
+                }
+                }
               >
                 <ShoppingBag className="h-5 w-5" />
                 Add to Cart
               </button>
+
+              {/* Buy Now Button with money logo */}
+              <Link
+                type="button"
+                to="/checkout"
+                state={[{
+                 
+                  image: product.images[0],
+                  name: product.name,
+                  price: product.price,
+                  quantity: qty,
+                  productId: product.productId,
+                  labelPrice: product.labelPrice
+
+                }] } // Pass the selected product and quantity to checkout
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-green-600 text-white font-semibold h-12 px-6 hover:bg-green-700 transition-all shadow-[0_10px_28px_-8px_rgba(34,197,94,0.6)] hover:shadow-[0_14px_36px_-8px_rgba(34,197,94,0.8)]"
+                onClick={() => {
+                    addToCart(product, qty);
+                    toast.success(`Proceeding to checkout with ${qty} - ${product.name}!`);
+                }}
+              >
+                <SiBuymeacoffee className="h-5 w-5" />
+                Buy Now
+              </Link>
 
               {/* Wishlist Button */}
               <button

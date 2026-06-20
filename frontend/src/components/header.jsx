@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { FiHome, FiShoppingCart, FiPackage, FiUsers, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const NAV_LINKS = [
     { label: "Home", to: "/" },
@@ -79,15 +80,15 @@ export default function Header() {
                         className="relative inline-flex items-center justify-center h-10 w-10 rounded-full bg-accent text-white shadow-md shadow-accent/30 hover:shadow-lg hover:shadow-accent/40 hover:scale-105 transition-all"
                         aria-label="Cart"
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="9" cy="21" r="1" />
-                            <circle cx="20" cy="21" r="1" />
-                            <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
-                        </svg>
+                        <FiShoppingCart size={20} />
                         <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-secondary text-primary text-[10px] font-bold flex items-center justify-center">
                             0
                         </span>
                     </Link>
+
+                   
+
+                   
                 </div>
             </div>
         </header>
