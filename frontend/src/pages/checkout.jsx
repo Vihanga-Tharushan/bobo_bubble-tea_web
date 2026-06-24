@@ -7,7 +7,7 @@ import { loadCart, updateQuantity, removeFromCart } from "../utils/cart";
 import { FiShoppingCart, FiTrash2 } from "react-icons/fi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Checkout() {
    
@@ -18,6 +18,8 @@ export default function Checkout() {
         return [];
     });
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!location.state) {
@@ -44,6 +46,44 @@ export default function Checkout() {
         setCart((prev) => prev.filter((item) => item.productId !== productId));
         toast.success("Item removed from cart");
     };
+
+    async function purchaseCart() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.error("Please log in to proceed with the purchase.");
+            navigate("/login");
+            return;
+        }
+
+        try {
+
+            const items = [];
+            for(i=0; i<cart.length; i++){
+                items.push({
+                    productId: cart[i].productId,
+                    quantity: cart[i].quantity
+                });
+            }
+
+            const response = await axios.post(
+                import.meta.env.VITE_API_URL + "/api/orders",
+                { items: items },
+                {address: "123 Main St, City, Country"},
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            toast.success("Purchase successful! Redirecting to orders...");
+            localStorage.removeItem("cart");
+            setTimeout(() => navigate("/orders"), 2000);
+
+
+        } catch (error) {
+
+            console.error("Purchase failed:", error);
+            toast.error("Purchase failed. Please try again.");
+        }
+
+
+    }
 
     const subtotal = cart.reduce((sum, item) => sum + item.labelPrice * item.quantity, 0);
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -134,6 +174,7 @@ export default function Checkout() {
                     <Link
                         to="/payment"
                         state={cart}
+                        onClick={purchaseCart}
                         className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-green-600 text-white font-semibold hover:bg-green-700 transition-all shadow-[0_10px_28px_-8px_rgba(34,197,94,0.6)] hover:shadow-[0_14px_36px_-8px_rgba(34,197,94,0.8)]"
                     >
                         <FiShoppingCart size={18} />

@@ -15,6 +15,14 @@ export async function createOrder(req, res) {
 
     try {
 
+        const user = req.user; // Get the authenticated user from the request
+
+        if(user == null || user == undefined) {     // Check if user is authenticated
+            return res.status(401).json({
+                message: "You are not authenticated"
+            });
+        }
+
         const orderlist =  await Order.find().sort({date: -1}).limit(1);
 
         let newOrderId = "BBB0000001";
@@ -32,12 +40,31 @@ export async function createOrder(req, res) {
             newOrderId = "BBB" + newOrderIdNumberInString; // "BBB0000002"
         }
 
+        let customerName = req.body.customerName;
+        let phone = req.body.phone;
+        
+        if(customerName == null || customerName == undefined) {
+            customerName = user.firstName + " " + user.lastName;
+        }
+
+        if(phone == null || phone == undefined) {
+            phone = "N/A";
+        }
+
+        const itemsRequest = req.body.items; // Array of items from the request body
+        const items = itemsRequest.map(item => ({
+            productId: item.productId,
+            name: item.name,
+            price: item.price,
+            image: item.image
+        }));
+
         const newOrder = new Order({
             orderID: newOrderId,
-            items: [],
-            customerName: req.body.customerName,
-            email: req.body.email,
-            phone: req.body.phone,
+            items: items,
+            customerName: customerName,
+            email:user.email,
+            phone: phone,
             address: req.body.address,
             total: req.body.total,
             date: new Date()
