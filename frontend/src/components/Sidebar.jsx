@@ -16,7 +16,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
   const getActivePath = () => {
     if (location.pathname === '/admin' || location.pathname === '/admin/') return 'dashboard';
     if (location.pathname === '/admin/orders') return 'orders';
-    if (location.pathname === '/admin/products' || location.pathname === '/admin/add-product') return 'products';
+    if (location.pathname === '/admin/products' || location.pathname === '/admin/add-product' || location.pathname === '/admin/update-product') return 'products' ;
     if (location.pathname === '/admin/users') return 'users';
     return 'dashboard';
   };

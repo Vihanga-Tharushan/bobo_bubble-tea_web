@@ -2,25 +2,29 @@ import mediaUpload from "../../utils/mediaUpload";
 import { useState } from "react";
 import { FiPackage, FiUpload, FiArrowLeft, FiDollarSign, FiTag, FiType, FiGrid, FiFileText, FiInfo, FiHash } from "react-icons/fi";
 import {  useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-
-export default function AddProductPage() {
+export default function UpdateProductPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const productData = location.state; // Get the product object from the state passed via navigate
 
-   
-    const [productId, setProductId] = useState("");
-    const [name, setName] = useState("");
-    const [altNames, setAltNames] = useState("");
+    const [productId, setProductId] = useState(productData.productId);
+    const [name, setName] = useState(productData.name);
+    const [altNames, setAltNames] = useState(productData.altNames?.join(","));
     const [images, setImages] = useState([]);
-    const [price, setPrice] = useState("");
-    const [labelPrice, setLabelPrice] = useState("");
-    const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("Juice");
-    const [stock, setStock] = useState(0); // New state for stock
+    const [price, setPrice] = useState(productData.price.toString());
+    const [labelPrice, setLabelPrice] = useState(productData.labelPrice.toString());
+    const [description, setDescription] = useState(productData.description);
+    const [category, setCategory] = useState(productData.category);
+    const [stock, setStock] = useState(productData.stock ?? 0);
 
-    async function addProduct() {
+
+    
+
+    async function updateProduct() {
 
          const token = localStorage.getItem("token");
 
@@ -38,7 +42,13 @@ export default function AddProductPage() {
         }
 
         try {
-            const Urls = await Promise.all(promises);
+
+            let Urls = await Promise.all(promises);
+
+            if (Urls.length == 0) {
+                Urls = productData.images; // Use existing images if no new images are uploaded
+            }
+
             const alternateNames = altNames.split(",");
 
             const product = {
@@ -50,28 +60,33 @@ export default function AddProductPage() {
                 labelPrice: labelPrice,
                 description: description,
                 category: category,
-                stock: stock, // Default stock value, you can modify this as needed
+                stock: stock
             };
 
-            const response = await axios.post(import.meta.env.VITE_API_URL + "/api/products", product, {
+            const response = await axios.put(import.meta.env.VITE_API_URL + "/api/products/"+productId, product, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            if (response.status === 201) {
-                toast.success("Product added successfully");
+            if (response.status === 200) {
+                toast.success("Product updated successfully");
                 navigate("/admin/products");
             } else {
-                toast.error("Failed to add product");
+                toast.error("Failed to update product");
             }
 
             
         } catch (error) {
-            console.error("Error uploading images:", error);
-            toast.error("Failed to upload images");
+            console.error("Error ", error);
+            toast.error("Failed to update product. Please try again.");
         }
     }
+
+
+    // get product details from backend using productId and set the state variables accordingly
+
+    
 
 
         
@@ -91,10 +106,10 @@ export default function AddProductPage() {
                             </div>
                             <div>
                                 <h1 className="text-xl sm:text-2xl font-bold text-secondary">
-                                    Add New Product
+                                    Update Product
                                 </h1>
                                 <p className="text-sm text-secondary/50 mt-0.5">
-                                    Fill in the details below to add a new product to your catalog
+                                    Fill in the details below to update the product information
                                 </p>
                             </div>
                         </div>
@@ -110,6 +125,7 @@ export default function AddProductPage() {
                                     Product ID
                                 </label>
                                 <input
+                                    disabled
                                     type="text"
                                     placeholder="e.g. BOBO-001"
                                     value={productId}
@@ -292,12 +308,12 @@ export default function AddProductPage() {
                         <div className="mt-8 pt-6 border-t border-secondary/10 flex flex-col sm:flex-row items-center justify-end gap-3">
                             <button
                                 onClick={() => {
-                                    addProduct();
+                                    updateProduct();
                                 }}
                                 className="w-full sm:w-auto px-8 py-3 bg-accent hover:bg-accent/90 text-white font-semibold rounded-xl shadow-[0_8px_24px_-6px_rgba(157,78,221,0.6)] hover:shadow-[0_12px_32px_-6px_rgba(157,78,221,0.8)] transition-all duration-200 active:scale-[0.98] inline-flex items-center justify-center gap-2"
                             >
                                 <FiPackage size={18} />
-                                Add Product
+                                <span>Update Product</span>
                             </button>
 
                             <button

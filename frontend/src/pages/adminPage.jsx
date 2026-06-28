@@ -2,15 +2,16 @@ import { useState } from 'react';
 import { Routes, useLocation, Route } from 'react-router-dom';
 import { FiShoppingCart, FiPackage, FiUsers, FiTrendingUp } from 'react-icons/fi';
 import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
 import WelcomeCard from '../components/WelcomeCard';
 import StatsCard from '../components/StatsCard';
 import ChartCard from '../components/ChartCard';
 import RecentOrdersTable from '../components/RecentOrdersTable';
 import AdminProductPage from './admin/adminProductPage';
 import AddProductPage from './admin/adminAddNewProduct';
+import UpdateProductPage from './admin/adminUpdateProduct';
 
 export default function AdminPage() {
+
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -54,6 +55,7 @@ export default function AdminPage() {
 
   return (
     <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-primary'}`}>
+      
       {/* Sidebar */}
       <Sidebar
         isCollapsed={isCollapsed}
@@ -62,23 +64,20 @@ export default function AdminPage() {
 
       {/* Main Container */}
       <div className={`transition-all duration-300 ${isCollapsed ? 'ml-20' : 'ml-64'} flex-1 flex flex-col`}>
-        {/* Navbar */}
-        <Navbar
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-          isCollapsed={isCollapsed}
-        />
+        
 
         {/* Content Area */}
-        <main className="flex-1 overflow-y-auto pt-24 pb-8">
+        <main className="flex-1 overflow-y-auto pb-8 pt-2">
           <div className="px-4 max-w-7xl mx-auto">
             <Routes path="/admin">
 
-                <Route path="/" element={<WelcomeCard />} />
+               
                 <Route path="/orders" element={<h1>Orders</h1>} />
                 <Route path="/products" element={<AdminProductPage />} />
                 <Route path="/users" element={<h1>Users</h1>} />
                 <Route path="/add-product" element={<AddProductPage />} />
+                <Route path="/update-product" element={<UpdateProductPage />} />
+                <Route path="/" element={<WelcomeCard />} />
 
             </Routes>   
           </div>

@@ -1,11 +1,8 @@
+import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-
-const anonKey =
-	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqeXZzY2NxZHZ6bXNvb3RldnVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMjg3ODIsImV4cCI6MjA3MTcwNDc4Mn0._UROOdpCU5IlFtwVP8kNktFlXUfo3QU_YwihNh7HQZA";
-const supabaseUrl = "https://jjyvsccqdvzmsootevuf.supabase.co";
-
+const anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoaWR1Y21weHRzcHh2b2Z1cHVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNTIxMTAsImV4cCI6MjA5NzYyODExMH0.QoOZTLOTEUp9Az8oy2YwNVu8EpCwVK0mTOWjvcx81d0";
+const supabaseUrl = "https://vhiducmpxtspxvofupul.supabase.co";
 const supabase = createClient(supabaseUrl, anonKey);
-
 
 export default function mediaUpload(file) {
 	return new Promise((resolve, reject) => {

@@ -97,33 +97,12 @@ export default function AdminProductPage() {
             {
                 showConfirm && <ProductDeleteConfirm refresh={() => setIsLoading(true)} productId={productToDelete} close={() => setShowConfirm(false)} />
             }
-            {/* Header Section */}
-            <header className="sticky top-0 z-10 bg-primary/80 backdrop-blur-sm border-b border-secondary/10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div>
-                            <h1 className="text-2xl sm:text-3xl font-bold text-secondary flex items-center gap-2">
-                                <FiPackage className="text-accent" />
-                                Product Management
-                            </h1>
-                            <p className="text-sm text-secondary/60 mt-1">
-                                Manage your product catalog efficiently
-                            </p>
-                        </div>
-                        <button
-                            onClick={() => navigate('/admin/add-product')}
-                            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent/90 text-white font-medium rounded-xl shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98]"
-                            title="Add new product"
-                        >
-                            <FiPlus size={18} />
-                            <span className="hidden sm:inline">Add Product</span>
-                        </button>
-                    </div>
-                </div>
-            </header>
+            
 
             {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+
                 {/* Search & Filters Bar */}
                 <div className="mb-6 flex flex-col sm:flex-row gap-3">
                     <div className="relative flex-1 max-w-md">
@@ -144,6 +123,19 @@ export default function AdminProductPage() {
                         <select className="px-4 py-2.5 bg-white/60 border border-secondary/10 rounded-xl text-secondary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all cursor-pointer">
                             <option>Sort by</option>
                         </select>
+                    </div>
+
+                    <div
+                        className="ml-auto flex items-center gap-2"
+                    >
+                        <button
+                                onClick={() => navigate('/admin/add-product')}
+                                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent/90 text-white font-medium rounded-xl shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98] "
+                                title="Add new product"
+                            >
+                                <FiPlus size={18} />
+                                <span className="hidden sm:inline">Add Product</span>
+                        </button>
                     </div>
                 </div>
 
@@ -229,7 +221,7 @@ export default function AdminProductPage() {
                                                 <div className="relative w-16 h-16 group-hover:scale-105 transition-transform duration-200">
                                                     <img 
                                                         // Safe access: check if images exist, else use placeholder
-                                                        src={product.images?.[0] || "https://via.placeholder.com/64"} 
+                                                        src={product.images?.[0]} 
                                                         alt={product.name || "Product Image"} 
                                                         className="w-full h-full object-cover rounded-xl border border-secondary/10 shadow-sm"
                                                         loading="lazy"
@@ -259,6 +251,7 @@ export default function AdminProductPage() {
                                                         className="inline-flex items-center justify-center p-2 text-secondary/50 hover:text-accent hover:bg-accent/10 rounded-lg transition-all duration-150 active:scale-95" 
                                                         title="Edit product"
                                                         aria-label="Edit product"
+                                                        onClick={() => navigate('/admin/update-product', { state: product })}
                                                     >
                                                         <FiEdit size={17} />
                                                     </button>
